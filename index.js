@@ -1,3 +1,3 @@
-'use strict'
-exports.__esModule = true
-require('./lesson-1/case-2')
+"use strict";
+exports.__esModule = true;
+require("./lesson-1/case-3");

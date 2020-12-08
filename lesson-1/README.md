@@ -21,3 +21,4 @@
 - 但是当`A`依赖`B`，`B`又依赖`C`的时候，我们还是得一层一层的传递实例化的对象，很麻烦
 - 所以我们在`case-4`中，创建了一个`对象树`，我们把所有的类在入口文件注册到这棵树上，然后从这棵树上去获取
 - 只需要在入口文件，把`container`作为单例绑定在`context`上即可实现真正的解耦
+- 在这个 case 中，我们需要学习[Reflect](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect)

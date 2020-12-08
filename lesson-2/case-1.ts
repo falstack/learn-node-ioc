@@ -1,19 +1,22 @@
-import 'reflect-metadata';
+import 'reflect-metadata'
 
-const CLASS_KEY = 'ioc:key';
+const KEY_NAME = 'ioc:key'
 
-function ClassDecorator() {
+function decorator() {
   return function (target: any) {
-    Reflect.defineMetadata(CLASS_KEY, {
-      metaData: 'metaData',
-    }, target);
-    return target;
-  };
+    const metas = {
+      key: 'value'
+    }
+
+    Reflect.defineMetadata(KEY_NAME, metas, target)
+
+    return target
+  }
 }
 
-@ClassDecorator()
+@decorator()
 class D {
-  constructor(){}
+  constructor() {}
 }
 
-console.log(Reflect.getMetadata(CLASS_KEY, D)); // => { metaData: 'metaData' }
+console.log(Reflect.getMetadata(KEY_NAME, D)) // => { key: 'value' }

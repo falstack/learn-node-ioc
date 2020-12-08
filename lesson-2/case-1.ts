@@ -1,43 +1,19 @@
-// container.ts
-export class Container {
-  bindMap = new Map()
+import 'reflect-metadata';
 
-  // 实例的注册
-  bind(identifier: string, clazz: any, constructorArgs: Array<any> = []) {
-    this.bindMap.set(identifier, {
-      clazz,
-      constructorArgs
-    })
-  }
+const CLASS_KEY = 'ioc:key';
 
-  // 实例的获取
-  get<T>(identifier: string): T {
-    const target = this.bindMap.get(identifier)
-    const { clazz, constructorArgs } = target
-    return Reflect.construct(clazz, constructorArgs)
-  }
+function ClassDecorator() {
+  return function (target: any) {
+    Reflect.defineMetadata(CLASS_KEY, {
+      metaData: 'metaData',
+    }, target);
+    return target;
+  };
 }
 
-// b.ts
-class B {
-  constructor(p: number) {
-    this.p = p
-  }
+@ClassDecorator()
+class D {
+  constructor(){}
 }
 
-// a.ts
-class A {
-  b: B
-  constructor() {
-    this.b = container.get('b')
-  }
-}
-
-// main.ts
-const container = new Container()
-container.bind('a', A)
-container.bind('b', B, [10])
-
-// 从容器中取出a
-const a = container.get('a')
-console.log(a) // A => { b: B { p: 10 } }
+console.log(Reflect.getMetadata(CLASS_KEY, D)); // => { metaData: 'metaData' }

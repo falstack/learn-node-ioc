@@ -1,50 +1,27 @@
-'use strict'
-exports.__esModule = true
-exports.Container = void 0
-// container.ts
-var Container = /** @class */ (function () {
-  function Container() {
-    this.bindMap = new Map()
-  }
-  // 实例的注册
-  Container.prototype.bind = function (identifier, clazz, constructorArgs) {
-    if (constructorArgs === void 0) {
-      constructorArgs = []
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+exports.__esModule = true;
+require("reflect-metadata");
+var CLASS_KEY = 'ioc:key';
+function ClassDecorator() {
+    return function (target) {
+        Reflect.defineMetadata(CLASS_KEY, {
+            metaData: 'metaData'
+        }, target);
+        return target;
+    };
+}
+var D = /** @class */ (function () {
+    function D() {
     }
-    this.bindMap.set(identifier, {
-      clazz: clazz,
-      constructorArgs: constructorArgs
-    })
-  }
-  // 实例的获取
-  // @ts-ignore
-  Container.prototype.get = function (identifier) {
-    var target = this.bindMap.get(identifier)
-    var clazz = target.clazz,
-      constructorArgs = target.constructorArgs
-    return Reflect.construct(clazz, constructorArgs)
-  }
-  return Container
-})()
-exports.Container = Container
-// b.ts
-var B = /** @class */ (function () {
-  function B(p) {
-    this.p = p
-  }
-  return B
-})()
-// a.ts
-var A = /** @class */ (function () {
-  function A() {
-    this.b = container.get('b')
-  }
-  return A
-})()
-// main.ts
-var container = new Container()
-container.bind('a', A)
-container.bind('b', B, [10])
-// 从容器中取出a
-var a = container.get('a')
-console.log(a) // A => { b: B { p: 10 } }
+    D = __decorate([
+        ClassDecorator()
+    ], D);
+    return D;
+}());
+console.log(Reflect.getMetadata(CLASS_KEY, D)); // => { metaData: 'metaData' }

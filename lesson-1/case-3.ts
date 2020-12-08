@@ -1,5 +1,5 @@
 // b.ts
-class B {
+class B3 {
   p: number
   constructor(p: number) {
     this.p = p
@@ -7,14 +7,14 @@ class B {
 }
 
 // a.ts
-class A {
-  private b: B
-  constructor(b: B) {
+class A3 {
+  private b: B3
+  constructor(b: B3) {
     this.b = b
   }
 }
 
 // main.ts
-const b = new B(10)
-const a = new A(b)
-console.log(a) // A => { b: B { p: 10 } }
+const b3 = new B3(10)
+const a3 = new A3(b3)
+console.log(a3) // A3 => { b3: B3 { p: 10 } }

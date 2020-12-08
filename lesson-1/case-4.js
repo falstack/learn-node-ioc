@@ -1,46 +1,42 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Container = void 0;
 // container.ts
-var Container = /** @class */ (function () {
-    function Container() {
+class Container {
+    constructor() {
         this.bindMap = new Map();
     }
     // 实例的注册
-    Container.prototype.bind = function (identifier, clazz, constructorArgs) {
-        if (constructorArgs === void 0) { constructorArgs = []; }
+    bind(identifier, clazz, constructorArgs = []) {
         this.bindMap.set(identifier, {
-            clazz: clazz,
-            constructorArgs: constructorArgs
+            clazz,
+            constructorArgs
         });
-    };
+    }
     // 实例的获取
-    Container.prototype.get = function (identifier) {
-        var target = this.bindMap.get(identifier);
-        var clazz = target.clazz, constructorArgs = target.constructorArgs;
+    get(identifier) {
+        const target = this.bindMap.get(identifier);
+        const { clazz, constructorArgs } = target;
         return Reflect.construct(clazz, constructorArgs);
-    };
-    return Container;
-}());
+    }
+}
 exports.Container = Container;
 // b.ts
-var B = /** @class */ (function () {
-    function B(p) {
+class B4 {
+    constructor(p) {
         this.p = p;
     }
-    return B;
-}());
+}
 // a.ts
-var A = /** @class */ (function () {
-    function A() {
+class A4 {
+    constructor() {
         this.b = container.get('b');
     }
-    return A;
-}());
+}
 // main.ts
-var container = new Container();
-container.bind('a', A);
-container.bind('b', B, [10]);
+const container = new Container();
+container.bind('a', A4);
+container.bind('b', B4, [10]);
 // 从容器中取出a
-var a = container.get('a');
-console.log(a); // A => { b: B { p: 10 } }
+const a4 = container.get('a');
+console.log(a4); // A4 => { b: B4 { p: 10 } }

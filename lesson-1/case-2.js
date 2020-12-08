@@ -1,17 +1,16 @@
+"use strict";
 // b.ts
-var B = /** @class */ (function () {
-    function B(p) {
+class B2 {
+    constructor(p) {
         this.p = p;
     }
-    return B;
-}());
+}
 // a.ts
-var A = /** @class */ (function () {
-    function A(p) {
-        this.b = new B(p);
+class A2 {
+    constructor(p) {
+        this.b = new B2(p);
     }
-    return A;
-}());
+}
 // main.ts
-var a = new A(10);
-console.log(a); // => A { b: B { p: 10 } }
+const a2 = new A2(10);
+console.log(a2); // => A2 { b: B2 { p: 10 } }

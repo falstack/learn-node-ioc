@@ -19,7 +19,7 @@ export class Container {
 }
 
 // b.ts
-class B {
+class B4 {
   p: any
   constructor(p: number) {
     this.p = p
@@ -27,8 +27,8 @@ class B {
 }
 
 // a.ts
-class A {
-  b: B
+class A4 {
+  b: B4
   constructor() {
     this.b = container.get('b')
   }
@@ -36,9 +36,9 @@ class A {
 
 // main.ts
 const container = new Container()
-container.bind('a', A)
-container.bind('b', B, [10])
+container.bind('a', A4)
+container.bind('b', B4, [10])
 
 // 从容器中取出a
-const a = container.get('a')
-console.log(a) // A => { b: B { p: 10 } }
+const a4 = container.get('a')
+console.log(a4) // A4 => { b: B4 { p: 10 } }

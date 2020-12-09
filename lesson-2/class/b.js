@@ -25,19 +25,16 @@ var __metadata =
       return Reflect.metadata(k, v)
   }
 Object.defineProperty(exports, '__esModule', { value: true })
-require('reflect-metadata')
-const KEY_NAME = 'ioc:key'
-function ClassDecorator() {
-  return function (target) {
-    const metas = {
-      key: 'value'
-    }
-    Reflect.defineMetadata(KEY_NAME, metas, target)
-    return target
+exports.B = void 0
+const provider_1 = require('../provider')
+let B = class B {
+  constructor(p) {
+    // @ts-ignore
+    this.p = p
   }
 }
-let D = class D {
-  constructor() {}
-}
-D = __decorate([ClassDecorator(), __metadata('design:paramtypes', [])], D)
-console.log(Reflect.getMetadata(KEY_NAME, D)) // => { key: 'value' }
+B = __decorate(
+  [provider_1.Provider('b', [10]), __metadata('design:paramtypes', [Number])],
+  B
+)
+exports.B = B

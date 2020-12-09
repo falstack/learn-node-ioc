@@ -22,3 +22,9 @@
 - 所以我们在`case-4`中，创建了一个`对象树`，我们把所有的类在入口文件注册到这棵树上，然后从这棵树上去获取
 - 只需要在入口文件，把`container`作为单例绑定在`context`上即可实现真正的解耦
 - 在这个 case 中，我们需要学习[Reflect](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect)
+
+
+## Reflect Metadata
+
+- 在`case-5`中，我们引入 [reflect-metadata](https://jkchao.github.io/typescript-book-chinese/tips/metadata.html#%E5%9F%BA%E7%A1%80) 来为类定义元数据
+- `defineMetadata`和`getMetadata`是两个需要去重点关注的方法

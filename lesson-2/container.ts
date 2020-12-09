@@ -4,6 +4,7 @@ import { getFiles } from './utils'
 
 export class Container {
   bindMap = new Map()
+  instanceMap = new Map()
 
   constructor() {
     this.autoload()
@@ -18,11 +19,10 @@ export class Container {
     this.bindMap.set(key, props)
   }
 
-  get<T>(key: string): T {
+  get<T>(key: string) {
     const target = this.bindMap.get(key)
 
     if (!target) {
-      // @ts-ignore
       return null
     }
 
@@ -39,6 +39,17 @@ export class Container {
     }
 
     return newInstance
+  }
+
+  singleton<T>(key: string) {
+    if (this.instanceMap.has(key)) {
+      return this.instanceMap.get(key)
+    }
+
+    const instance = this.get(key)
+    this.instanceMap.set(key, instance)
+
+    return instance
   }
 
   autoload() {

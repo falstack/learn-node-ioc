@@ -5,6 +5,9 @@ const bootstrap = async () => {
 
   console.log(container.get('a')) // A { b: B { p: 10 }, c: null }
   console.log(container.get('a'))
+  console.log(container.singleton('a'))
+  console.log(container.singleton('a'))
+  console.log(container.singleton('a'))
 }
 
 bootstrap()

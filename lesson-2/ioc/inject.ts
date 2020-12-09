@@ -1,6 +1,5 @@
 import 'reflect-metadata'
-
-export const INJECT_KEY = 'ioc:inject_meta'
+import { INJECT_KEY } from './utils'
 
 export function Inject() {
   return function (targetClass: any, injectKey: string) {

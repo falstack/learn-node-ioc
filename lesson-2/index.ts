@@ -1,13 +1,10 @@
-import { Container } from './container'
+import { Container } from './ioc/container'
 
 const bootstrap = async () => {
   const container = new Container()
 
   console.log(container.get('a')) // A { b: B { p: 10 }, c: null }
   console.log(container.get('a'))
-  console.log(container.singleton('a'))
-  console.log(container.singleton('a'))
-  console.log(container.singleton('a'))
 }
 
 bootstrap()

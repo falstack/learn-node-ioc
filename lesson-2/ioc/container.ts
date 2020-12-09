@@ -1,6 +1,4 @@
-import { PROVIDER_KEY } from './provider'
-import { INJECT_KEY } from './inject'
-import { getFiles } from './utils'
+import { INJECT_KEY, PROVIDER_KEY, getFiles } from './utils'
 
 export class Container {
   bindMap = new Map()
@@ -10,7 +8,7 @@ export class Container {
     this.autoload()
   }
 
-  bind(key: string, clazz: any, constructorArgs?: Array<any>) {
+  register(key: string, clazz: any, constructorArgs?: Array<any>) {
     const props = {
       clazz,
       constructorArgs: constructorArgs || []
@@ -19,7 +17,20 @@ export class Container {
     this.bindMap.set(key, props)
   }
 
+  singleton(key: string, clazz: any, constructorArgs?: Array<any>) {
+    const props = {
+      clazz,
+      constructorArgs: constructorArgs || []
+    }
+
+    this.instanceMap.set(key, props)
+  }
+
   get<T>(key: string) {
+    if (this.instanceMap.has(key)) {
+      return this.instanceMap.get(key)
+    }
+
     const target = this.bindMap.get(key)
 
     if (!target) {
@@ -41,19 +52,8 @@ export class Container {
     return newInstance
   }
 
-  singleton<T>(key: string) {
-    if (this.instanceMap.has(key)) {
-      return this.instanceMap.get(key)
-    }
-
-    const instance = this.get(key)
-    this.instanceMap.set(key, instance)
-
-    return instance
-  }
-
   autoload() {
-    const list = getFiles(__dirname, '.js')
+    const list = getFiles(`${process.cwd()}/dist/lesson-2`, '.js')
 
     for (const file of list) {
       const exports = require(file)
@@ -62,7 +62,7 @@ export class Container {
         if (typeof clazz === 'function') {
           const metadata = Reflect.getMetadata(PROVIDER_KEY, clazz)
           if (metadata) {
-            this.bind(metadata.id, clazz, metadata.args)
+            this.register(metadata.id, clazz, metadata.args)
           }
         }
       }

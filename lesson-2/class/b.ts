@@ -1,5 +1,5 @@
-import { Provider } from '../provider'
-import { Inject } from '../inject'
+import { Provider } from '../ioc/provider'
+import { Inject } from '../ioc/inject'
 
 @Provider('b', [10])
 export class B {

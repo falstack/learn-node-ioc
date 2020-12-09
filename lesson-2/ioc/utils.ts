@@ -1,6 +1,10 @@
 import * as fs from 'fs'
 import { join } from 'path'
 
+export const INJECT_KEY = 'ioc:inject_meta'
+
+export const PROVIDER_KEY = 'ioc:provider_meta'
+
 export function getFiles(jsonPath: string = process.cwd(), ext = '') {
   const jsonFiles: Array<string> = []
 

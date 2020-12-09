@@ -1,6 +1,5 @@
 import 'reflect-metadata'
-
-export const PROVIDER_KEY = 'ioc:provider_meta'
+import { PROVIDER_KEY } from './utils'
 
 export function Provider(name: string, args?: Array<any>) {
   return function (targetClass: any) {

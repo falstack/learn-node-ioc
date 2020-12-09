@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { join } from 'path'
 
-export function getJsonFiles(jsonPath: string = process.cwd(), ext = '') {
+export function getFiles(jsonPath: string = process.cwd(), ext = '') {
   const jsonFiles: Array<string> = []
 
   function findJsonFile(path: string) {

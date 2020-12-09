@@ -1,9 +1,6 @@
-import * as path from 'path'
 import { CLASS_KEY } from './provider'
 import { PROPS_KEY } from './inject'
-import { getJsonFiles } from './utils'
-
-const resolve = (file: string) => path.resolve(__dirname, file)
+import { getFiles } from './utils'
 
 export class Container {
   bindMap = new Map()
@@ -44,7 +41,7 @@ export class Container {
   }
 
   autoload() {
-    const list = getJsonFiles(__dirname, '.js')
+    const list = getFiles(__dirname, '.js')
 
     for (const file of list) {
       const exports = require(file)

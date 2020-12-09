@@ -1,7 +1,7 @@
-import * as fs from 'fs'
 import * as path from 'path'
 import { CLASS_KEY } from './provider'
 import { PROPS_KEY } from './inject'
+import { getJsonFiles } from './utils'
 
 const resolve = (file: string) => path.resolve(__dirname, file)
 
@@ -44,19 +44,17 @@ export class Container {
   }
 
   autoload() {
-    const list = fs.readdirSync(resolve('class'))
+    const list = getJsonFiles(__dirname, '.js')
+
     for (const file of list) {
-      if (/\.js$/.test(file)) {
-        // 扫描 ts 文件
-        const exports = require(resolve(`class/${file}`))
-        for (const m in exports) {
-          const module = exports[m]
-          if (typeof module === 'function') {
-            const metadata = Reflect.getMetadata(CLASS_KEY, module)
-            // 注册实例
-            if (metadata) {
-              this.bind(metadata.id, module, metadata.args)
-            }
+      const exports = require(file)
+      for (const m in exports) {
+        const module = exports[m]
+        if (typeof module === 'function') {
+          const metadata = Reflect.getMetadata(CLASS_KEY, module)
+          // 注册实例
+          if (metadata) {
+            this.bind(metadata.id, module, metadata.args)
           }
         }
       }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "dev": "tsc -p ./tsconfig.json && node index.js",
+    "dev": "tsc -p ./tsconfig.json && node dist/index.js",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix"
   },
   "dependencies": {

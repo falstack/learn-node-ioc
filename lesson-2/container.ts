@@ -1,10 +1,18 @@
+import * as fs from 'fs'
+import * as path from 'path'
+import { CLASS_KEY } from './provider'
 import { PROPS_KEY } from './inject'
+
+const resolve = (file: string) => path.resolve(__dirname, file)
 
 export class Container {
   bindMap = new Map()
 
+  constructor() {
+    this.autoload()
+  }
+
   bind(key: string, clazz: any, constructorArgs?: Array<any>) {
-    console.log('bind', key, clazz, constructorArgs)
     const props = {
       clazz,
       constructorArgs: constructorArgs || []
@@ -14,7 +22,6 @@ export class Container {
   }
 
   get<T>(key: string): T {
-    console.log('get', key)
     const target = this.bindMap.get(key)
 
     if (!target) {
@@ -34,5 +41,25 @@ export class Container {
     }
 
     return instance
+  }
+
+  autoload() {
+    const list = fs.readdirSync(resolve('class'))
+    for (const file of list) {
+      if (/\.js$/.test(file)) {
+        // 扫描 ts 文件
+        const exports = require(resolve(`class/${file}`))
+        for (const m in exports) {
+          const module = exports[m]
+          if (typeof module === 'function') {
+            const metadata = Reflect.getMetadata(CLASS_KEY, module)
+            // 注册实例
+            if (metadata) {
+              this.bind(metadata.id, module, metadata.args)
+            }
+          }
+        }
+      }
+    }
   }
 }

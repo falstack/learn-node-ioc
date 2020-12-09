@@ -1,22 +1,22 @@
 import 'reflect-metadata'
 
-export const PROPS_KEY = 'ioc:inject_props'
+export const INJECT_KEY = 'ioc:inject_meta'
 
 export function Inject() {
-  return function (target: any, targetKey: string) {
-    const annotationTarget = target.constructor
+  return function (targetClass: any, injectKey: string) {
+    const { constructor } = targetClass
 
-    let props = {}
+    let injection = {}
 
-    if (Reflect.hasOwnMetadata(PROPS_KEY, annotationTarget)) {
-      props = Reflect.getMetadata(PROPS_KEY, annotationTarget)
+    if (Reflect.hasOwnMetadata(INJECT_KEY, constructor)) {
+      injection = Reflect.getMetadata(INJECT_KEY, constructor)
     }
 
     // @ts-ignore
-    props[targetKey] = {
-      value: targetKey
+    injection[injectKey] = {
+      injectKey
     }
 
-    Reflect.defineMetadata(PROPS_KEY, props, annotationTarget)
+    Reflect.defineMetadata(INJECT_KEY, injection, constructor)
   }
 }

@@ -1,16 +1,16 @@
 import 'reflect-metadata'
 
-export const CLASS_KEY = 'ioc:tagged_class'
+export const PROVIDER_KEY = 'ioc:provider_meta'
 
-export function Provider(key: string, args?: Array<any>) {
-  return function (target: any) {
+export function Provider(name: string, args?: Array<any>) {
+  return function (targetClass: any) {
     const metas = {
-      id: key,
+      id: name,
       args: args || []
     }
 
-    Reflect.defineMetadata(CLASS_KEY, metas, target)
+    Reflect.defineMetadata(PROVIDER_KEY, metas, targetClass)
 
-    return target
+    return targetClass
   }
 }

@@ -1,5 +1,5 @@
-import { CLASS_KEY } from './provider'
-import { PROPS_KEY } from './inject'
+import { PROVIDER_KEY } from './provider'
+import { INJECT_KEY } from './inject'
 import { getFiles } from './utils'
 
 export class Container {
@@ -28,16 +28,17 @@ export class Container {
 
     const { clazz, constructorArgs } = target
 
-    const props = Reflect.getMetadata(PROPS_KEY, clazz)
-    const instance = Reflect.construct(clazz, constructorArgs)
+    const injection = Reflect.getMetadata(INJECT_KEY, clazz)
+    const newInstance = Reflect.construct(clazz, constructorArgs)
 
-    for (const prop in props) {
-      const identifier = props[prop].value
-      // 递归获取注入的对象？？？
-      instance[prop] = this.get(identifier)
+    for (const key in injection) {
+      if (injection.hasOwnProperty(key)) {
+        const { injectKey } = injection[key]
+        newInstance[key] = this.get(injectKey)
+      }
     }
 
-    return instance
+    return newInstance
   }
 
   autoload() {
@@ -46,12 +47,11 @@ export class Container {
     for (const file of list) {
       const exports = require(file)
       for (const m in exports) {
-        const module = exports[m]
-        if (typeof module === 'function') {
-          const metadata = Reflect.getMetadata(CLASS_KEY, module)
-          // 注册实例
+        const clazz = exports[m]
+        if (typeof clazz === 'function') {
+          const metadata = Reflect.getMetadata(PROVIDER_KEY, clazz)
           if (metadata) {
-            this.bind(metadata.id, module, metadata.args)
+            this.bind(metadata.id, clazz, metadata.args)
           }
         }
       }
